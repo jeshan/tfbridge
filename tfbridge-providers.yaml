@@ -1,0 +1,142 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: example provider configurations you can try
+Transform: AWS::Serverless-2016-10-31
+
+Parameters:
+  DigitalOceanToken:
+    Type: String
+    NoEcho: true
+    Default: ''
+  GithubToken:
+    Type: String
+    NoEcho: true
+    Default: ''
+  GithubOrg:
+    Type: String
+    Default: ''
+  GitlabToken:
+    Type: String
+    NoEcho: true
+    Default: ''
+  NetlifyToken:
+    Type: String
+    NoEcho: true
+    Default: ''
+
+Conditions:
+  #isAws: !Not [!Equals ['', !Ref Azure]]
+  #isAzure: !Not [!Equals ['', !Ref Azure]]
+  isDigitalOcean: !Not [!Equals ['', !Ref DigitalOceanToken]]
+  isGithub: !Not [!Equals ['', !Ref GithubToken]]
+  isGitlab: !Not [!Equals ['', !Ref GitlabToken]]
+  isNetlify: !Not [!Equals ['', !Ref DigitalOceanToken]]
+
+Resources:
+  HttpProviderConfig:
+    Properties:
+      CodeUri: ./dist/tfbridge.zip
+      FunctionName: !Sub ${AWS::StackName}-basic-http
+      Handler: main
+      MemorySize: 128
+      Role: !Sub '${DefaultRole.Arn}'
+      Runtime: go1.x
+      Timeout: 30
+    Type: AWS::Serverless::Function
+
+#  Aws:
+#    Condition: isAws
+#    Properties:
+#      CodeUri: ./dist/aws.so
+#      FunctionName: !Sub ${AWS::StackName}-aws
+#      Handler: main
+#      MemorySize: 256
+#      #Policies:
+#      Role: !Sub '${DefaultRole.Arn}'
+#      Runtime: go1.x
+#      Timeout: 30
+#    Type: AWS::Serverless::Function
+
+  Github:
+    Condition: isGithub
+    Properties:
+      CodeUri: ./package-github.zip
+      Environment:
+        Variables:
+          GITHUB_TOKEN: !Ref GithubToken
+          GITHUB_ORGANIZATION: !Ref GithubOrg
+      FunctionName: !Sub ${AWS::StackName}-github
+      Handler: main
+      MemorySize: 256
+      Role: !Sub '${DefaultRole.Arn}'
+      Runtime: go1.x
+      Timeout: 30
+    Type: AWS::Serverless::Function
+
+  Gitlab:
+    Condition: isGitlab
+    Properties:
+      CodeUri: ./package.zip
+      Environment:
+        Variables:
+          GITLAB_TOKEN: !Ref GitlabToken
+      FunctionName: !Sub ${AWS::StackName}-gitlab
+      Handler: main
+      MemorySize: 256
+      Role: !Sub '${DefaultRole.Arn}'
+      Runtime: go1.x
+      Timeout: 30
+    Type: AWS::Serverless::Function
+
+#  Azure:
+#    Condition: isAzure
+#    Properties:
+#      CodeUri: ./package.zip
+#      FunctionName: !Sub ${AWS::StackName}-azure
+#      Handler: main
+#      MemorySize: 256
+#      Role: !Sub '${DefaultRole.Arn}'
+#      Runtime: go1.x
+#      Timeout: 30
+#    Type: AWS::Serverless::Function
+
+  Netlify:
+    Condition: isNetlify
+    Properties:
+      CodeUri: ./package.zip
+      Environment:
+        Variables:
+          NETLIFY_TOKEN: !Ref NetlifyToken
+      FunctionName: !Sub ${AWS::StackName}-netlify
+      Handler: main
+      MemorySize: 256
+      Role: !Sub '${DefaultRole.Arn}'
+      Runtime: go1.x
+      Timeout: 30
+    Type: AWS::Serverless::Function
+
+  DigitalOcean:
+    Condition: isDigitalOcean
+    Properties:
+      CodeUri: ./package.zip
+      Environment:
+        Variables:
+          DIGITALOCEAN_TOKEN: !Ref DigitalOceanToken
+      FunctionName: !Sub ${AWS::StackName}-digitalocean
+      Handler: main
+      MemorySize: 256
+      Role: !Sub '${DefaultRole.Arn}'
+      Runtime: go1.x
+      Timeout: 180
+    Type: AWS::Serverless::Function
+
+  DefaultRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Statement:
+          - Action: sts:AssumeRole
+            Effect: Allow
+            Principal:
+              Service: lambda.amazonaws.com
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
