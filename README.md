@@ -4,12 +4,15 @@
 
 Create, import and manage (virtually) **any** Terraform resource in (virtually) any provider on AWS CloudFormation (via custom resources).
 
-## Why on earth would you do this?
+## Why would somebody want this?
 - Cloudformation devotees: Stop feeling jealous that Terraform has more features.
 - Use *tfbridge* to bring existing resources under CloudFormation management.
 - Leverage your existing CloudFormation skills to deploy to multiple providers: combine Github, Netlify and AWS in one template.
 - Skip waiting for the CloudFormation to provide native support for new services and features.
 - Terraform users: No longer need to mess with TF state files; state is handled by Cloudformation.
+
+# What it is
+*tfbridge* is a bunch of Cloudformation custom resources backed by serverless functions. It is fairly provider agnostic so that it's easier to support as many of them as possible.
 
 ## Features
 - [x] Multi-provider. The following are currently available and it's trivial to add more. The ticked ones are tested by me:
@@ -23,7 +26,7 @@ Create, import and manage (virtually) **any** Terraform resource in (virtually) 
 - [x] Terraform data sources
 - [x] Import resources (just like in Terraform)
   - [x] Strict mode: *tfbridge* can check that you declared all properties correctly.
-- [ ] variable interpolation e.g `${var.self.whatever}`. To refer to other resources, use CFN's `!GetAtt ${Resource.Prop}` syntax.
+- [ ] variable interpolation e.g `${var.self.whatever}`.
 
 ## Usage
 1. Deploy the stack using the template on the releases page. It shows how to create the serverless functions that can provision resources in the supported providers. Use the parameters to pass in your credentials to the various providers, e.g your digital ocean access token. Note the function names of the deployed resources. You will use it in the next step.
@@ -46,7 +49,10 @@ Create, import and manage (virtually) **any** Terraform resource in (virtually) 
       param1: val1 # as documented in the data source's Terraform docs.
       param2: val2
   ``` 
-3. Optional: To deploy to same providers using different credentials, relaunch a new stack using the template in the first step with new credentials or edit the template to customise it.
+3. Optional: To deploy to same providers using different credentials, relaunch a new stack using the same template in the first step. Supply it with new credentials or edit the template to customise it further.
+
+### Attributes
+Terraform's resources returns several attributes, e.g A `github_repository` returns full_name, git_clone_url, [etc](https://www.terraform.io/docs/providers/github/r/repository.html#attributes-reference). In Terraform, you would refer to them as `${github_repository.my_repo.git_clone_url`. With *tfbridge*, you do it as such: `!GetAtt MyRepo.git_clone_url`.
 
 ## Example resources
 You can try the following snippets. They are intended to work as similar to the original Terraform project as much as possible.:
