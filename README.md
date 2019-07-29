@@ -127,4 +127,4 @@ Code is released under the Simplified BSD Licence. Fork and hack away!
 
 Install Go 1.12 locally. Run `build.sh` to compile code for the various providers. Example resources that you can deploy to test is found on this page or in the `custom-resources.yaml` template.
 
-You can deploy a similar deployment pipeline. The Codebuild project in it contains the exact build steps. In case you can't build successfully, check the exact steps in it. Otherwise, raise an issue.
+You can deploy a similar deployment pipeline via the [templates/infrastructure.yaml](templates/infrastructure.yaml) file. The Codebuild project in it contains the exact build steps. In case you can't build successfully, check the exact steps in it. Otherwise, raise an issue.
