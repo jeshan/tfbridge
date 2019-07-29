@@ -25,7 +25,89 @@ Create, import and manage (virtually) **any** Terraform resource in (virtually) 
   - [x] Strict mode: *tfbridge* can check that you declared all properties correctly.
 - [ ] variable interpolation e.g `${var.self.whatever}`. To refer to other resources, use CFN's `!GetAtt ${Resource.Prop}` syntax.
 
-### Notes
+## Usage
+1. Deploy the stack using the template on the releases page. It shows how to create the serverless functions that can provision resources in the supported providers. Use the parameters to pass in your credentials to the various providers, e.g your digital ocean access token. Note the function names of the deployed resources. You will use it in the next step.
+2. Next, create custom resources in the following format. The next section has some examples:
+  - resource:
+  ```yaml
+    MyResource:
+      Type: Custom::TfBridge-resource-$RESOURCE
+      Properties:
+        ServiceToken: !Sub arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:$STACK_NAME-$PROVIDER
+      param1: val1 # as documented in the resource's Terraform docs.
+      param2: val2
+    ```
+  - data source: 
+  ```yaml
+  MyData:
+    Type: Custom::TfBridge-data-$PROVIDER
+    Properties:
+      ServiceToken: !Sub arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:$STACK_NAME-$PROVIDER
+      param1: val1 # as documented in the data source's Terraform docs.
+      param2: val2
+  ``` 
+3. Optional: To deploy to same providers using different credentials, relaunch a new stack using the template in the first step with new credentials or edit the template to customise it.
+
+## Example resources
+You can try the following snippets. They are intended to work as similar to the original Terraform project as much as possible.:
+
+An HTTP data source:
+```yaml
+  HttpData:
+    Type: Custom::TfBridge-data-http
+    Properties:
+      ServiceToken: !Sub arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:tfbridge-http
+      # as documented here https://www.terraform.io/docs/providers/http/data_source.html
+      url: https://checkpoint-api.hashicorp.com/v1/check/terraform
+      request_headers:
+        Accept: application/json
+
+```
+
+A Netlify site:
+```yaml
+  NetlifySite:
+    Type: Custom::TfBridge-resource-netlify_site
+    Properties:
+      ServiceToken: !Sub arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:tfbridge-netlify
+      # as documented here https://www.terraform.io/docs/providers/netlify/r/netlify_site.html
+      #name: some-custom-name
+      repo:
+        - command: gulp build
+          dir: dist/
+          provider: github
+          repo_branch: master
+          repo_path: jeshan/cloudformation-checklist
+```
+
+Importing an existing AWS IAM user:
+```yaml
+  User:
+    Type: Custom::TfBridge-resource-aws_iam_user
+    Properties:
+      TFBRIDGE_MODE: Import
+      TFBRIDGE_ID: some_user_name_to_import
+      ServiceToken: !Sub arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:tfbridge-aws
+```
+
+Importing the same user, but this time strictly checking that all properties have been properly mapped:
+```yaml
+  User:
+    Type: Custom::TfBridge-resource-aws_iam_user
+    Properties:
+      TFBRIDGE_MODE: ImportStrict
+      TFBRIDGE_ID: some_user_name_to_import
+      ServiceToken: !Sub arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:tfbridge-aws
+      arn: !Sub arn:aws:iam::${AWS::AccountId}:user/some_user_name_to_import
+      id: some_user_name_to_import
+      name: some_user_name_to_import
+      path: /
+      unique_id: AIDAV5PA7X6CGFEXAMPLE
+```
+
+When in doubt, check the relevant Terraform docs.
+
+## Notes
 - If you don't see your favourite provider, raise an [issue with this link](https://github.com/jeshan/tfbridge/issues/new?title=Add%20support%20for%20provider%20$x&body=Please%20support%20provider%20$x.%20%20It%27s%20available%20at%20the%20following%20link:https://github.com/terraform-providers/terraform-provider-$x)
 
 - Please remember that **this is still experimental software**. Do not use it in production yet.
