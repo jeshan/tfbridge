@@ -29,6 +29,7 @@ Conditions:
   isDigitalOcean: !Not [!Equals ['', !Ref DigitalOceanToken]]
   isGithub: !Not [!Equals ['', !Ref GithubToken]]
   isGitlab: !Not [!Equals ['', !Ref GitlabToken]]
+  #isGoogle: !Not [!Equals ['', !Ref Google]]
   isNetlify: !Not [!Equals ['', !Ref DigitalOceanToken]]
 
 Resources:
@@ -92,6 +93,18 @@ Resources:
 #    Properties:
 #      CodeUri: ./dist/package.zip
 #      FunctionName: !Sub ${AWS::StackName}-azure
+#      Handler: main
+#      MemorySize: 256
+#      Role: !Sub '${DefaultRole.Arn}'
+#      Runtime: go1.x
+#      Timeout: 30
+#    Type: AWS::Serverless::Function
+
+#  Google:
+#    Condition: isGoogle
+#    Properties:
+#      CodeUri: ./dist/package-google.zip
+#      FunctionName: !Sub ${AWS::StackName}-google
 #      Handler: main
 #      MemorySize: 256
 #      Role: !Sub '${DefaultRole.Arn}'

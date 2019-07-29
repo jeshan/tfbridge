@@ -12,6 +12,8 @@ require (
 	github.com/terraform-providers/terraform-provider-digitalocean v1.5.0
 	github.com/terraform-providers/terraform-provider-github v0.0.0-20190628194446-5b4ccd2278b2
 	github.com/terraform-providers/terraform-provider-gitlab v0.0.0-20190612175539-be61c1d348ba
+	github.com/terraform-providers/terraform-provider-google v1.20.0
 	github.com/terraform-providers/terraform-provider-http v1.1.1
 	github.com/terraform-providers/terraform-provider-netlify v0.3.0
+	google.golang.org/api v0.6.0 // indirect
 )

@@ -21,6 +21,7 @@ Create, import and manage (virtually) **any** Terraform resource in (virtually) 
   - [x] DigitalOcean
   - [x] Github
   - [x] Gitlab
+  - [ ] Google Cloud Platform
   - [x] Http
   - [x] Netlify
 - [x] Terraform data sources
