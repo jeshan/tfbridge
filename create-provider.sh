@@ -19,12 +19,9 @@ import (
 //noinspection ALL
 func CreateProvider() (terraform.ResourceProvider, error) {
 	provider := ${provider}.Provider()
-	rawConfig, err := config.NewRawConfig(map[string]interface{}{})
-	if err != nil {
-		return nil, err
-	}
+	rawConfig, _ := config.NewRawConfig(map[string]interface{}{})
 	conf := terraform.NewResourceConfig(rawConfig)
-	err = provider.Configure(conf)
+	err := provider.Configure(conf)
 	return provider, err
 }
 EOL
