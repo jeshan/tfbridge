@@ -30,7 +30,7 @@ Conditions:
   isGithub: !Not [!Equals ['', !Ref GithubToken]]
   isGitlab: !Not [!Equals ['', !Ref GitlabToken]]
   #isGoogle: !Not [!Equals ['', !Ref Google]]
-  isNetlify: !Not [!Equals ['', !Ref DigitalOceanToken]]
+  isNetlify: !Not [!Equals ['', !Ref NetlifyToken]]
 
 Resources:
   HttpProviderConfig:
