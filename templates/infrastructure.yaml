@@ -39,6 +39,9 @@ Resources:
           - Name: GO111MODULE
             Type: PLAINTEXT
             Value: 'on'
+          - Name: BUCKET
+            Type: PLAINTEXT
+            Value: !Ref Bucket
       LogsConfig:
         CloudWatchLogs:
           GroupName: !Ref 'LogGroup'
@@ -68,6 +71,7 @@ Resources:
             build:
               commands:
                 - ./build.sh
+                - ./release.sh
                 - sceptre --no-colour launch -y main
         GitCloneDepth: 1
         InsecureSsl: false
