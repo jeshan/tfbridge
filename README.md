@@ -55,7 +55,7 @@ Create, import and manage (virtually) **any** Terraform resource in (virtually) 
 Terraform's resources returns several attributes, e.g A `github_repository` returns full_name, git_clone_url, [etc](https://www.terraform.io/docs/providers/github/r/repository.html#attributes-reference). In Terraform, you would refer to them as `${github_repository.my_repo.git_clone_url`. With *tfbridge*, you do it as such: `!GetAtt MyRepo.git_clone_url`.
 
 ## Example resources
-You can try the following snippets. They are intended to work as similar to the original Terraform project as much as possible.:
+You can try the following snippets. They are intended to work as similarly to the original Terraform project as much as possible:
 
 An HTTP data source:
 ```yaml
