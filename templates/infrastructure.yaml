@@ -1,0 +1,123 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: 'base infrastructure for the tfbridge project'
+
+Parameters:
+  AwsProfile:
+    Type: String
+    Description: The AWS cli profile
+  GithubRepo:
+    Type: String
+    Default: jeshan/tfbridge
+
+Resources:
+  Bucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      LifecycleConfiguration:
+        Rules:
+          - ExpirationInDays: 15
+            Prefix: build-cache/*
+            Status: Enabled
+
+  DeployTfBridge:
+    Properties:
+      Artifacts:
+        Type: NO_ARTIFACTS
+      BadgeEnabled: true
+      Cache:
+        Modes:
+          - LOCAL_CUSTOM_CACHE
+        Type: LOCAL
+        Location: !Sub '${Bucket.Arn}/build-cache'
+      EncryptionKey: !Sub 'arn:aws:kms:${AWS::Region}:${AWS::AccountId}:alias/aws/s3'
+      Environment:
+        ComputeType: BUILD_GENERAL1_LARGE
+        Image: aws/codebuild/standard:2.0
+        PrivilegedMode: true
+        Type: LINUX_CONTAINER
+        EnvironmentVariables:
+          - Name: GO111MODULE
+            Type: PLAINTEXT
+            Value: 'on'
+      LogsConfig:
+        CloudWatchLogs:
+          GroupName: !Ref 'LogGroup'
+          Status: ENABLED
+      ServiceRole: !GetAtt 'Role.Arn'
+      Source:
+        BuildSpec: !Sub |-
+          version: 0.2
+
+          env:
+            variables:
+              LC_ALL: C.UTF-8
+              LANG: C.UTF-8
+
+          cache:
+            paths:
+              - /go/pkg
+          phases:
+            install:
+              runtime-versions:
+                golang: 1.12
+            pre_build:
+              commands:
+                - pip3 install sceptre
+                - aws configure set profile.${AwsProfile}.region ${AWS::Region}
+                - aws configure set profile.${AwsProfile}.credential_source EcsContainer
+            build:
+              commands:
+                - ./build.sh
+                - sceptre --no-colour launch -y main
+        GitCloneDepth: 1
+        InsecureSsl: false
+        Location: !Sub https://github.com/${GithubRepo}
+        Type: GITHUB
+      TimeoutInMinutes: 15
+      Triggers:
+        Webhook: true
+        FilterGroups:
+          - - Type: EVENT
+              Pattern: PUSH
+            - Type: HEAD_REF
+              Pattern: '^refs/tags/v.+$'
+    Type: AWS::CodeBuild::Project
+
+  LogGroup:
+    Type: AWS::Logs::LogGroup
+
+  Role:
+    Properties:
+      AssumeRolePolicyDocument:
+        Statement:
+          - Action: sts:AssumeRole
+            Effect: Allow
+            Principal:
+              Service: codebuild.amazonaws.com
+        Version: '2012-10-17'
+      Policies:
+        - PolicyDocument:
+            Statement:
+              - Action:
+                  - logs:CreateLogGroup
+                  - logs:CreateLogStream
+                  - logs:DeleteLogGroup
+                  - logs:DescribeLogGroups
+                  - logs:PutLogEvents
+                Effect: Allow
+                Resource:
+                  - !Sub 'arn:aws:logs:${AWS::Region}:${AWS::AccountId}:log-group:*'
+              - Action:
+                  - cloudformation:*
+                Effect: Allow
+                Resource:
+                  - !Sub arn:aws:cloudformation:${AWS::Region}:${AWS::AccountId}:stack/tfbridge-*
+              - Action:
+                  - s3:GetObject
+                  - s3:PutObject
+                Effect: Allow
+                Resource:
+                  - !Sub '${Bucket.Arn}/build-cache/*'
+            Version: '2012-10-17'
+          PolicyName: deploy-tfbridge-pol
+    Type: AWS::IAM::Role
