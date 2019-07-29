@@ -14,6 +14,7 @@ require (
 	github.com/terraform-providers/terraform-provider-gitlab v0.0.0-20190612175539-be61c1d348ba
 	github.com/terraform-providers/terraform-provider-google v1.20.0
 	github.com/terraform-providers/terraform-provider-http v1.1.1
+	github.com/terraform-providers/terraform-provider-kubernetes v1.8.1
 	github.com/terraform-providers/terraform-provider-netlify v0.3.0
 	github.com/terraform-providers/terraform-provider-postgresql v1.1.0
 	google.golang.org/api v0.6.0 // indirect

@@ -143,6 +143,22 @@ Resources:
       Timeout: 180
     Type: AWS::Serverless::Function
 
+#  Kubernetes:
+#     #long list of params here: https://github.com/terraform-providers/terraform-provider-kubernetes/blob/master/kubernetes/provider.go#L21
+#    Condition: isKubernetes
+#    Properties:
+#      CodeUri: ./dist/package-kubernetes.zip
+#      Environment:
+#        Variables:
+#          #
+#      FunctionName: !Sub ${AWS::StackName}-kubernetes
+#      Handler: main
+#      MemorySize: 256
+#      Role: !Sub '${DefaultRole.Arn}'
+#      Runtime: go1.x
+#      Timeout: 180
+#    Type: AWS::Serverless::Function
+
 #  Postgresql:
      # long list of params here: https://github.com/terraform-providers/terraform-provider-postgresql/blob/master/postgresql/provider.go#L20
 #    Condition: isPostgresql
