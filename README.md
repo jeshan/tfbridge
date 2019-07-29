@@ -39,7 +39,7 @@ Create, import and manage (virtually) **any** Terraform resource in (virtually) 
         ServiceToken: !Sub arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:$STACK_NAME-$PROVIDER
       param1: val1 # as documented in the resource's Terraform docs.
       param2: val2
-    ```
+  ```
   - data source: 
   ```yaml
   MyData:
@@ -86,7 +86,7 @@ A Netlify site:
           repo_path: jeshan/cloudformation-checklist
 ```
 
-Importing an existing AWS IAM user:
+Importing an existing AWS IAM user. Set `TFBRIDGE_MODE` = Import and `TFBRIDGE_ID` to the ID of the resource to be imported:
 ```yaml
   User:
     Type: Custom::TfBridge-resource-aws_iam_user
@@ -96,7 +96,7 @@ Importing an existing AWS IAM user:
       ServiceToken: !Sub arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:tfbridge-aws
 ```
 
-Importing the same user, but this time strictly checking that all properties have been properly mapped:
+Importing the same user, but this time strictly checking that all properties have been properly mapped. Set `TFBRIDGE_MODE` to **ImportStrict**:
 ```yaml
   User:
     Type: Custom::TfBridge-resource-aws_iam_user
@@ -112,6 +112,10 @@ Importing the same user, but this time strictly checking that all properties hav
 ```
 
 When in doubt, check the relevant Terraform docs.
+
+## Configuring the providers
+*tfbridge* leverages configuration features already supported by Terraform. Since TF resources are configurable via environment variables, you can configure their respective serverless function with environment variables.
+To know the full list of available env vars, check the `provider.go` file for them. e.g `NETLIFY_TOKEN` is the env var to set for Netlify: https://github.com/terraform-providers/terraform-provider-netlify/blob/master/netlify/provider.go#L13-L24
 
 ## Notes
 - If you don't see your favourite provider, raise an [issue with this link](https://github.com/jeshan/tfbridge/issues/new?title=Add%20support%20for%20provider%20$x&body=Please%20support%20provider%20$x.%20%20It%27s%20available%20at%20the%20following%20link:https://github.com/terraform-providers/terraform-provider-$x)
