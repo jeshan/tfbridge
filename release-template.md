@@ -2,7 +2,7 @@ Release v$version available.
 
 Providers can be created by deploying the template:
 
-`s3://tfbridge-main-infra-bucket-117f9bdcoyq2u/v$version/templates/tfbridge-providers.yaml`
+`s3://tfbridge-main-infra-bucket-117f9bdcoyq2u/releases/v$version/templates/tfbridge-providers.yaml`
 
 Or click this button:
 
