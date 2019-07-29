@@ -12,7 +12,7 @@ Create, import and manage (virtually) **any** Terraform resource in (virtually) 
 - Terraform users: No longer need to mess with TF state files; state is handled by Cloudformation.
 
 ## Features
-- [x] Multi-provider. The following are currently available on the releases page and it's trivial to add more. The ticked ones are tested by me:
+- [x] Multi-provider. The following are currently available and it's trivial to add more. The ticked ones are tested by me:
   - [x] AWS
   - [ ] Azure
   - [x] DigitalOcean
