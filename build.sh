@@ -9,7 +9,7 @@ go get -d ./...
 echo "Building main package"
 go build -o dist/main tfbridge/lambda/main.go
 
-for name in google http github digitalocean gitlab netlify azurerm aws ; do
+for name in postgresql google http github digitalocean gitlab netlify azurerm aws ; do
     echo "Building plugin for ${name}"
     time go build -buildmode=plugin -o dist/${name}.so tfbridge/providers/${name}.go
     echo "Packaging plugin for ${name}"

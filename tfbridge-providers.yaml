@@ -31,6 +31,7 @@ Conditions:
   isGitlab: !Not [!Equals ['', !Ref GitlabToken]]
   #isGoogle: !Not [!Equals ['', !Ref Google]]
   isNetlify: !Not [!Equals ['', !Ref NetlifyToken]]
+  #isPostgresql: !Not [!Equals ['', !Ref Postgresql]]
 
 Resources:
   HttpProviderConfig:
@@ -141,6 +142,22 @@ Resources:
       Runtime: go1.x
       Timeout: 180
     Type: AWS::Serverless::Function
+
+#  Postgresql:
+     # long list of params here: https://github.com/terraform-providers/terraform-provider-postgresql/blob/master/postgresql/provider.go#L20
+#    Condition: isPostgresql
+#    Properties:
+#      CodeUri: ./dist/package-postgresql.zip
+#      Environment:
+#        Variables:
+#          #
+#      FunctionName: !Sub ${AWS::StackName}-postgresql
+#      Handler: main
+#      MemorySize: 256
+#      Role: !Sub '${DefaultRole.Arn}'
+#      Runtime: go1.x
+#      Timeout: 180
+#    Type: AWS::Serverless::Function
 
   DefaultRole:
     Type: AWS::IAM::Role

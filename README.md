@@ -6,6 +6,7 @@ Create, import and manage (virtually) **any** Terraform resource in (virtually) 
 
 ## Why would somebody want this?
 - Cloudformation devotees: Stop feeling jealous that Terraform has more features.
+- Configure your postgres RDS instance with database (privileges, databases, schema, etc)
 - Use *tfbridge* to bring existing resources under CloudFormation management.
 - Leverage your existing CloudFormation skills to deploy to multiple providers: combine Github, Netlify and AWS in one template.
 - Skip waiting for the CloudFormation to provide native support for new services and features.
@@ -24,6 +25,7 @@ Create, import and manage (virtually) **any** Terraform resource in (virtually) 
   - [ ] Google Cloud Platform
   - [x] Http
   - [x] Netlify
+  - [ ] PostgreSQL
 - [x] Terraform data sources
 - [x] Import resources (just like in Terraform)
   - [x] Strict mode: *tfbridge* can check that you declared all properties correctly.

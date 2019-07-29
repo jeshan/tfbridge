@@ -456,6 +456,7 @@ github.com/hashicorp/terraform v0.12.0-alpha4.0.20190424121927-9327eedb0417/go.m
 github.com/hashicorp/terraform v0.12.0-rc1/go.mod h1:mLbSyFcATc332aCwDeX9cziNg/dUb6ZJzRVd1KgrDOk=
 github.com/hashicorp/terraform v0.12.0/go.mod h1:Ke0ig9gGZ8rhV6OddAhBYt5nXmpvXsuNQQ8w9qYBZfU=
 github.com/hashicorp/terraform v0.12.1/go.mod h1:T3xp83QKah46oRMg37OPBbEVjEwokcGdn7+aNQtQbKo=
+github.com/hashicorp/terraform v0.12.2/go.mod h1:4MELVjPGm2DO5bK9E7jPXM5F+1pkvT4fYJYtMcQ2CMs=
 github.com/hashicorp/terraform v0.12.4/go.mod h1:R3nGcJpajl/k9hfg6Q/Mvj/mO9Zg4N2CuqXyGBFhjX0=
 github.com/hashicorp/terraform v0.12.5 h1:Z2FichOU9kUKWa8RBzwMXzPR1+vhAIstvdsrT8NgYwE=
 github.com/hashicorp/terraform v0.12.5/go.mod h1:79gUmnwZ6qMgdCF2RVlVjmIDnqrVROxsczBbmRirIQE=
@@ -516,6 +517,7 @@ github.com/kylelemons/godebug v0.0.0-20170820004349-d65d576e9348/go.mod h1:B69LE
 github.com/kylelemons/godebug v1.1.0/go.mod h1:9/0rRGxNHcop5bhtWyNeEfOS8JIWk580+fNqagV/RAw=
 github.com/kyoh86/richgo v0.3.1/go.mod h1:S65jllVRxBm59fqIXfCa3cPxQYRT9u9v45EPQVeuoH0=
 github.com/kyoh86/xdg v0.0.0-20171007020617-d28e4c5d7b81/go.mod h1:Z5mDqe0fxyxn3W2yTxsBAOQqIrXADQIh02wrTnaRM38=
+github.com/lib/pq v1.0.0 h1:X5PMW56eZitiTeO7tKzZxFCSpbFZJtkMMooicw2us9A=
 github.com/lib/pq v1.0.0/go.mod h1:5WUZQaWbwv1U+lTReE5YruASi9Al49XbQIvNi/34Woo=
 github.com/logrusorgru/aurora v0.0.0-20181002194514-a7b3b318ed4e/go.mod h1:7rIyQOR62GCctdiQpZ/zOJlFyk6y+94wXzv6RNZgaR4=
 github.com/lusis/go-artifactory v0.0.0-20160115162124-7e4ce345df82/go.mod h1:y54tfGmO3NKssKveTEFFzH8C/akrSOy/iW9qEAUDV84=
@@ -663,6 +665,8 @@ github.com/satori/go.uuid v1.2.0 h1:0uYX9dsZ2yD7q2RtLRtPSdGDWzjeM3TbMJP9utgA0ww=
 github.com/satori/go.uuid v1.2.0/go.mod h1:dA0hQrYB0VpLJoorglMZABFdXlWrHn1NEOzdhQKdks0=
 github.com/satori/uuid v0.0.0-20160927100844-b061729afc07 h1:81vvGlnI/AZ1/TxGDirw3ofUoS64TyjmPQt5C9XODTw=
 github.com/satori/uuid v0.0.0-20160927100844-b061729afc07/go.mod h1:B8HLsPLik/YNn6KKWVMDJ8nzCL8RP5WyfsnmvnAEwIU=
+github.com/sean-/postgresql-acl v0.0.0-20161225120419-d10489e5d217 h1:zBCJK2lWczv4ng2w24VdiWs8zKsNbRfDcg0Gyezl0Fg=
+github.com/sean-/postgresql-acl v0.0.0-20161225120419-d10489e5d217/go.mod h1:9onFewqXpqEn8CNOdWUVX4aUSxsnkRfuXXbXS4JqcGY=
 github.com/sean-/seed v0.0.0-20170313163322-e2103e2c3529/go.mod h1:DxrIzT+xaE7yg65j358z/aeFdxmN0P9QXhEzd20vsDc=
 github.com/sergi/go-diff v1.0.0/go.mod h1:0CfEIISq7TuYL3j771MWULgwwjU+GofnZX9QAmXWZgo=
 github.com/shirou/gopsutil v0.0.0-20180427012116-c95755e4bcd7/go.mod h1:5b4v6he4MtMOwMlS0TUMTu2PcXUg8+E1lC7eC3UO/RA=
@@ -756,6 +760,8 @@ github.com/terraform-providers/terraform-provider-kubernetes v1.7.0/go.mod h1:51
 github.com/terraform-providers/terraform-provider-netlify v0.3.0 h1:8uUkWeWu3FWY5rEnc1XI48CcVCOOOJJN39yk1721DZQ=
 github.com/terraform-providers/terraform-provider-netlify v0.3.0/go.mod h1:4taFcqNp+M2eLa3Dggm5litnBrD8QnsQ/yCmlAhtNus=
 github.com/terraform-providers/terraform-provider-openstack v1.15.0/go.mod h1:2aQ6n/BtChAl1y2S60vebhyJyZXBsuAI5G4+lHrT1Ew=
+github.com/terraform-providers/terraform-provider-postgresql v1.1.0 h1:dILzjYO2biA6oH2kc4kjZhFxfVRWCtWCaXXGmwmpzmw=
+github.com/terraform-providers/terraform-provider-postgresql v1.1.0/go.mod h1:qITohWrym7QPC5DOIiRhzEMeHeArBp0ndotuDSb9tJQ=
 github.com/terraform-providers/terraform-provider-random v2.0.0+incompatible/go.mod h1:1U2balY0mfjMnO5iotT60EuFqDJxqP433wJcybviCTw=
 github.com/terraform-providers/terraform-provider-template v0.1.1/go.mod h1:/J+B8me5DCMa0rEBH5ic2aKPjhtpWNeScmxFJWxB1EU=
 github.com/terraform-providers/terraform-provider-template v1.0.0/go.mod h1:/J+B8me5DCMa0rEBH5ic2aKPjhtpWNeScmxFJWxB1EU=
