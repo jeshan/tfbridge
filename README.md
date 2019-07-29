@@ -43,9 +43,9 @@ Create, import and manage (virtually) **any** Terraform resource in (virtually) 
   - data source: 
   ```yaml
   MyData:
-    Type: Custom::TfBridge-data-$PROVIDER
+    Type: Custom::TfBridge-data-$DATA_SOURCE
     Properties:
-      ServiceToken: !Sub arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:$STACK_NAME-$PROVIDER
+      ServiceToken: !Sub arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:$STACK_NAME-$DATA_SOURCE
       param1: val1 # as documented in the data source's Terraform docs.
       param2: val2
   ``` 
