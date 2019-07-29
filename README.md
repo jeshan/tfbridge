@@ -26,6 +26,7 @@ Create, import and manage (virtually) **any** Terraform resource in (virtually) 
   - [x] Http
   - [ ] Kubernetes
   - [x] Netlify
+  - [ ] OpenStack
   - [ ] PostgreSQL
 - [x] Terraform data sources
 - [x] Import resources (just like in Terraform)
