@@ -117,11 +117,11 @@ Resources:
                 Resource:
                   - !Sub arn:aws:cloudformation:${AWS::Region}:${AWS::AccountId}:stack/tfbridge-*
               - Action:
-                  - s3:GetObject
-                  - s3:PutObject
+                  - s3:*
                 Effect: Allow
                 Resource:
-                  - !Sub '${Bucket.Arn}/build-cache/*'
+                  - !Sub '${Bucket.Arn}'
+                  - !Sub '${Bucket.Arn}/*'
             Version: '2012-10-17'
           PolicyName: deploy-tfbridge-pol
     Type: AWS::IAM::Role
