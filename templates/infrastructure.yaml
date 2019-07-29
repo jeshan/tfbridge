@@ -27,7 +27,7 @@ Resources:
       Cache:
         Modes:
           - LOCAL_CUSTOM_CACHE
-        Type: LOCAL
+        Type: S3
         Location: !Sub '${Bucket.Arn}/build-cache'
       EncryptionKey: !Sub 'arn:aws:kms:${AWS::Region}:${AWS::AccountId}:alias/aws/s3'
       Environment:
