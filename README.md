@@ -29,3 +29,10 @@ Create, import and manage (virtually) **any** Terraform resource in (virtually) 
 - If you don't see your favourite provider, raise an [issue with this link](https://github.com/jeshan/tfbridge/issues/new?title=Add%20support%20for%20provider%20$x&body=Please%20support%20provider%20$x.%20%20It%27s%20available%20at%20the%20following%20link:https://github.com/terraform-providers/terraform-provider-$x)
 
 - Please remember that **this is still experimental software**. Do not use it in production yet.
+
+## Forkers
+Code is released under the Simplified BSD Licence. Fork and hack away!
+
+Install Go 1.12 locally. Run `build.sh` to compile code for the various providers. Example resources that you can deploy to test is found on this page or in the `custom-resources.yaml` template.
+
+You can deploy a similar deployment pipeline. The Codebuild project in it contains the exact build steps. In case you can't build successfully, check the exact steps in it. Otherwise, raise an issue.
