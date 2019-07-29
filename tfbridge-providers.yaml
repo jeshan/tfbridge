@@ -91,7 +91,7 @@ Resources:
 #  Azure:
 #    Condition: isAzure
 #    Properties:
-#      CodeUri: ./dist/package.zip
+#      CodeUri: ./dist/package-azure.zip
 #      FunctionName: !Sub ${AWS::StackName}-azure
 #      Handler: main
 #      MemorySize: 256
