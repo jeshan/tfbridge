@@ -1,0 +1,11 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: example custom resources made possible with tfbridge
+Transform: AWS::Serverless-2016-10-31
+Resources:
+  HttpData:
+    Type: Custom::TfBridge-data-http
+    Properties:
+      ServiceToken: !Sub arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:tfbridge-basic-http
+      url: https://checkpoint-api.hashicorp.com/v1/check/terraform
+      request_headers:
+        Accept: application/json
