@@ -65,7 +65,7 @@ Resources:
                 golang: 1.12
             pre_build:
               commands:
-                - pip3 install sceptre
+                - pip3 install sceptre aws-sam-cli
                 - aws configure set profile.${AwsProfile}.region ${AWS::Region}
                 - aws configure set profile.${AwsProfile}.credential_source EcsContainer
             build:
