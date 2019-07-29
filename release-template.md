@@ -6,4 +6,4 @@ Providers can be created by deploying the template:
 
 Or click this button:
 
-<a href="https://console.aws.amazon.com/cloudformation/home?#/stacks/new?&templateURL=https://s3.amazonaws.com/tfbridge-main-infra-bucket-117f9bdcoyq2u/v$version/tfbridge-providers.yml&stackName=tfbridge" target="_blank"><img src="https://s3.amazonaws.com/cloudformation-examples/cloudformation-launch-stack.png"></a>
+<a href="https://console.aws.amazon.com/cloudformation/home?#/stacks/new?&templateURL=https://s3.amazonaws.com/tfbridge-main-infra-bucket-117f9bdcoyq2u/releases/v$version/templates/tfbridge-providers.yml&stackName=tfbridge" target="_blank"><img src="https://s3.amazonaws.com/cloudformation-examples/cloudformation-launch-stack.png"></a>
