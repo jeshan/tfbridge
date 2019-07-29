@@ -34,7 +34,7 @@ Conditions:
 Resources:
   HttpProviderConfig:
     Properties:
-      CodeUri: ./dist/tfbridge.zip
+      CodeUri: ./dist/package-http.zip
       FunctionName: !Sub ${AWS::StackName}-basic-http
       Handler: main
       MemorySize: 128
@@ -75,7 +75,7 @@ Resources:
   Gitlab:
     Condition: isGitlab
     Properties:
-      CodeUri: ./package.zip
+      CodeUri: ./package-gitlab.zip
       Environment:
         Variables:
           GITLAB_TOKEN: !Ref GitlabToken
@@ -102,7 +102,7 @@ Resources:
   Netlify:
     Condition: isNetlify
     Properties:
-      CodeUri: ./package.zip
+      CodeUri: ./package-netlify.zip
       Environment:
         Variables:
           NETLIFY_TOKEN: !Ref NetlifyToken
@@ -117,7 +117,7 @@ Resources:
   DigitalOcean:
     Condition: isDigitalOcean
     Properties:
-      CodeUri: ./package.zip
+      CodeUri: ./package-digitalocean.zip
       Environment:
         Variables:
           DIGITALOCEAN_TOKEN: !Ref DigitalOceanToken
