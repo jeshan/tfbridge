@@ -6,7 +6,7 @@ import (
 	"github.com/terraform-providers/terraform-provider-digitalocean/digitalocean"
 )
 
-//noinspection ALL
+//noinspection GoDuplicate
 func CreateProvider() (terraform.ResourceProvider, error) {
 	provider := digitalocean.Provider()
 	rawConfig, err := config.NewRawConfig(map[string]interface{}{})

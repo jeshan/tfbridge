@@ -6,7 +6,7 @@ import (
 	"github.com/terraform-providers/terraform-provider-gitlab/gitlab"
 )
 
-//noinspection ALL
+//noinspection GoDuplicate
 func CreateProvider() (terraform.ResourceProvider, error) {
 	provider := gitlab.Provider()
 	rawConfig, err := config.NewRawConfig(map[string]interface{}{})

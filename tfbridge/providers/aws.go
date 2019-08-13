@@ -6,7 +6,7 @@ import (
 	"github.com/terraform-providers/terraform-provider-aws/aws"
 )
 
-//noinspection ALL
+//noinspection GoDuplicate
 func CreateProvider() (terraform.ResourceProvider, error) {
 	provider := aws.Provider()
 	rawConfig, err := config.NewRawConfig(map[string]interface{}{

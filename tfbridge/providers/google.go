@@ -6,7 +6,7 @@ import (
 	"github.com/terraform-providers/terraform-provider-google/google"
 )
 
-//noinspection ALL
+//noinspection GoDuplicate
 func CreateProvider() (terraform.ResourceProvider, error) {
 	provider := google.Provider()
 	rawConfig, err := config.NewRawConfig(map[string]interface{}{})

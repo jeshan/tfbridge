@@ -6,7 +6,7 @@ import (
 	"github.com/terraform-providers/terraform-provider-postgresql/postgresql"
 )
 
-//noinspection ALL
+//noinspection GoDuplicate
 func CreateProvider() (terraform.ResourceProvider, error) {
 	provider := postgresql.Provider()
 	rawConfig, err := config.NewRawConfig(map[string]interface{}{})

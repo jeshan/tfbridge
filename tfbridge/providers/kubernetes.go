@@ -6,7 +6,7 @@ import (
 	"github.com/terraform-providers/terraform-provider-kubernetes/kubernetes"
 )
 
-//noinspection ALL
+//noinspection GoDuplicate
 func CreateProvider() (terraform.ResourceProvider, error) {
 	provider := kubernetes.Provider()
 	rawConfig, err := config.NewRawConfig(map[string]interface{}{})

@@ -16,7 +16,7 @@ import (
 	"github.com/terraform-providers/terraform-provider-${provider}/${provider}"
 )
 
-//noinspection ALL
+//noinspection GoDuplicate
 func CreateProvider() (terraform.ResourceProvider, error) {
 	provider := ${provider}.Provider()
 	rawConfig, _ := config.NewRawConfig(map[string]interface{}{})

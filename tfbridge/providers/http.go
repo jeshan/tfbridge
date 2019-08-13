@@ -6,7 +6,7 @@ import (
 	"github.com/terraform-providers/terraform-provider-http/http"
 )
 
-//noinspection ALL
+//noinspection GoDuplicate
 func CreateProvider() (terraform.ResourceProvider, error) {
 	provider := http.Provider()
 	rawConfig, err := config.NewRawConfig(map[string]interface{}{

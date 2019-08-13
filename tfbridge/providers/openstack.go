@@ -6,7 +6,7 @@ import (
 	"github.com/terraform-providers/terraform-provider-openstack/openstack"
 )
 
-//noinspection ALL
+//noinspection GoDuplicate
 func CreateProvider() (terraform.ResourceProvider, error) {
 	provider := openstack.Provider()
 	rawConfig, _ := config.NewRawConfig(map[string]interface{}{})
