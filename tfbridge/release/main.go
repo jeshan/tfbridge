@@ -200,7 +200,7 @@ func writeDownloadDependenciesScript(supportedProviders []string) {
 }
 
 func getLatestVersion(projectName string) string {
-	req, err := http.NewRequest("GET", fmt.Sprintf("https://api.github.com/repos/%s/releases/latest", projectName), nil)
+	req, err := http.NewRequest("GET", fmt.Sprintf("https://api.github.com/repos/terraform-providers/terraform-provider-%s/tags", projectName), nil)
 	req.Header.Set("Authorization", fmt.Sprintf("token %s", os.Getenv("GITHUB_TOKEN")))
 	client := &http.Client{}
 	resp, err := client.Do(req)
@@ -212,13 +212,15 @@ func getLatestVersion(projectName string) string {
 	if err != nil {
 		panic(err)
 	}
-	var parsed map[string]string
+	var parsed []map[string]string
 	_ = json.Unmarshal(content, &parsed)
-	tagName := parsed["tag_name"]
-	if len(tagName) == 0 {
-		return "latest"
+	for _, item := range parsed {
+		tagName := item["name"]
+		if strings.HasPrefix(tagName, "v") {
+			return tagName
+		}
 	}
-	return tagName
+	return "latest"
 }
 
 //noinspection GoUnhandledErrorResult

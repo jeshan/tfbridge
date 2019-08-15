@@ -160,3 +160,32 @@ func Test_getTerraformVersion(t *testing.T) {
 		})
 	}
 }
+
+func Test_getLatestVersion(t *testing.T) {
+	type args struct {
+		projectName string
+	}
+	tests := []struct {
+		name string
+		args args
+		want string
+	}{
+		{
+			name: "alicloud",
+			args: args{projectName: "alicloud"},
+			want: "v1.54.0",
+		},
+		{
+			name: "aws",
+			args: args{projectName: "aws"},
+			want: "v2.24.0",
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := getLatestVersion(tt.args.projectName); got != tt.want {
+				t.Errorf("getLatestVersion() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
