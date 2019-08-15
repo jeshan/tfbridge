@@ -49,13 +49,6 @@ Resources:
         Image: aws/codebuild/standard:2.0
         PrivilegedMode: true
         Type: LINUX_CONTAINER
-        EnvironmentVariables:
-          - Name: GO111MODULE
-            Type: PLAINTEXT
-            Value: 'on'
-          - Name: BUCKET
-            Type: PLAINTEXT
-            Value: !Ref Bucket
       LogsConfig:
         CloudWatchLogs:
           GroupName: !Ref 'LogGroup'
@@ -66,36 +59,23 @@ Resources:
           version: 0.2
 
           env:
-            variables:
-              LC_ALL: C.UTF-8
-              LANG: C.UTF-8
+            parameter-store:
+              BUCKET: ${Bucket}
+              CLI_PROFILE: ${AwsProfile}
+              GITHUB_TOKEN: /CodeBuild/TFBRIDGE_GITHUB_TOKEN
 
           phases:
             install:
               runtime-versions:
-                golang: 1.12
-            pre_build:
-              commands:
-                - pip3 install sceptre aws-sam-cli
-                - aws configure set profile.${AwsProfile}.region ${AWS::Region}
-                - aws configure set profile.${AwsProfile}.credential_source EcsContainer
+                docker: 18
             build:
               commands:
-                - ./build.sh
-                - ./release.sh
-                - sceptre --no-colour launch -y main
+                - docker-compose build
         GitCloneDepth: 1
         InsecureSsl: false
         Location: !Sub https://github.com/${GithubRepo}
         Type: GITHUB
-      TimeoutInMinutes: 15
-      Triggers:
-        Webhook: true
-        FilterGroups:
-          - - Type: EVENT
-              Pattern: PUSH
-            - Type: HEAD_REF
-              Pattern: '^refs/tags/v.+$'
+      TimeoutInMinutes: 90
     Type: AWS::CodeBuild::Project
 
   LogGroup:
@@ -113,6 +93,11 @@ Resources:
       Policies:
         - PolicyDocument:
             Statement:
+              - Action:
+                  - ssm:GetParameters
+                Effect: Allow
+                Resource:
+                  - !Sub arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter/CodeBuild/TFBRIDGE_*
               - Action:
                   - logs:CreateLogGroup
                   - logs:CreateLogStream
