@@ -1,0 +1,17 @@
+# Created by .ignore support plugin (hsz.mobi)
+.idea/
+*-packaged.yaml
+deploy.sh
+dist/
+*.iml
+tfbridge/real-tests/
+tfbridge/terraform.tfstate
+tfbridge/terraform.tfstate.backup
+
+tfbridge/providers/*.go
+!tfbridge/providers/aws.go
+.env
+download-dependencies.sh
+tfbridge/.terraform/
+.version
+*-cfn-template.yaml
