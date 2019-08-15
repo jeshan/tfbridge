@@ -29,6 +29,7 @@ COPY tfbridge/utils tfbridge/utils
 RUN go build -o dist/main tfbridge/lambda/main.go
 
 COPY tfbridge/release tfbridge/release
+RUN go build -o dist/create-release tfbridge/release/main/create-release.go
 RUN go build -o dist/write-build-info tfbridge/release/main/main.go
 COPY *.gohtml ./
 
@@ -46,3 +47,4 @@ COPY config config
 
 ENV LC_ALL=C.UTF-8 LANG=C.UTF-8
 RUN AWS_REGION=${AWS_REGION} AWS_DEFAULT_REGION=${AWS_DEFAULT_REGION} BUCKET=${BUCKET} CLI_PROFILE=${CLI_PROFILE} ./deploy-artefacts.sh
+RUN dist/create-release

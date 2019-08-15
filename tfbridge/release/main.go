@@ -48,7 +48,7 @@ func CreateRelease() {
 	terraformVersion := getTerraformVersion()
 	requestBody, _ := json.Marshal(map[string]interface{}{
 		"tag_name": newVersion,
-		"body":     createReleaseNotes(newVersion, terraformVersion, os.Getenv("BUCKET"), readProviderInfo("download-dependencies.sh")),
+		"body":     createReleaseNotes(newVersion, terraformVersion, os.Getenv("BUCKET"), readProviderInfo()),
 	})
 	req, _ := http.NewRequest("POST", "https://api.github.com/repos/jeshan/tfbridge/releases", bytes.NewBuffer(requestBody))
 	req.Header.Set("Authorization", fmt.Sprintf("token %s", os.Getenv("GITHUB_TOKEN")))
@@ -81,22 +81,35 @@ func getNewVersion() string {
 	return string(contents)
 }
 
-func readProviderInfo(filename string) []ProviderInfo {
-	var result []ProviderInfo
-	file, err := ioutil.ReadFile(filename)
+func readProviderVersion(providerName string) string {
+	file, err := ioutil.ReadFile("download-dependencies.sh")
 	if err != nil {
 		panic(err)
 	}
 	lines := strings.Split(string(file), "\n")
 	for _, line := range lines {
-		if strings.Index(line, "github.com/terraform-providers/terraform-provider-") >= 0 {
+		if strings.Index(line, fmt.Sprintf("github.com/terraform-providers/terraform-provider-%s", providerName)) >= 0 {
 			split := strings.Split(line, "@")
 			providerVersion := split[1]
-			split = strings.Split(split[0], "-")
-			providerName := split[len(split)-1]
+			return providerVersion
+		}
+	}
+	panic(fmt.Sprintf("Could not get version for provider %s", providerName))
+}
+
+func readProviderInfo() []ProviderInfo {
+	var result []ProviderInfo
+	infos, err := ioutil.ReadDir("dist")
+	if err != nil {
+		panic(err)
+	}
+	for _, item := range infos {
+		if strings.HasSuffix(item.Name(), ".zip") {
+			fmt.Println(item.Name())
+			providerName := item.Name()[:len(item.Name())-4]
 			result = append(result, ProviderInfo{
 				Name:    providerName,
-				Version: providerVersion,
+				Version: readProviderVersion(providerName),
 			})
 		}
 	}
