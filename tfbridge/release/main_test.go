@@ -120,7 +120,7 @@ func Test_readProviderInfo(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := readProviderInfo(tt.name); !reflect.DeepEqual(got, tt.want) {
+			if got := readProviderInfo(); !reflect.DeepEqual(got, tt.want) {
 				t.Errorf("readProviderInfo() = %v, want %v", got, tt.want)
 			}
 		})
