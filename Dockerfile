@@ -46,5 +46,6 @@ COPY templates templates
 COPY config config
 
 ENV LC_ALL=C.UTF-8 LANG=C.UTF-8
+RUN pip install click==7.0
 RUN AWS_REGION=${AWS_REGION} AWS_DEFAULT_REGION=${AWS_DEFAULT_REGION} BUCKET=${BUCKET} CLI_PROFILE=${CLI_PROFILE} ./deploy-artefacts.sh
 RUN dist/create-release
