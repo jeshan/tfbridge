@@ -36,7 +36,7 @@ Conditions:
 Resources:
   HttpProviderConfig:
     Properties:
-      CodeUri: ./dist/package-http.zip
+      CodeUri: ./dist/http.zip
       FunctionName: !Sub ${AWS::StackName}-http
       Handler: main
       MemorySize: 128
@@ -48,7 +48,7 @@ Resources:
 #  Aws:
 #    Condition: isAws
 #    Properties:
-#      CodeUri: ./dist/package-aws.zip
+#      CodeUri: ./dist/aws.zip
 #      FunctionName: !Sub ${AWS::StackName}-aws
 #      Handler: main
 #      MemorySize: 256
@@ -61,7 +61,7 @@ Resources:
   Github:
     Condition: isGithub
     Properties:
-      CodeUri: ./dist/package-github.zip
+      CodeUri: ./dist/github.zip
       Environment:
         Variables:
           GITHUB_TOKEN: !Ref GithubToken
@@ -77,7 +77,7 @@ Resources:
   Gitlab:
     Condition: isGitlab
     Properties:
-      CodeUri: ./dist/package-gitlab.zip
+      CodeUri: ./dist/gitlab.zip
       Environment:
         Variables:
           GITLAB_TOKEN: !Ref GitlabToken
@@ -92,7 +92,7 @@ Resources:
 #  Azure:
 #    Condition: isAzure
 #    Properties:
-#      CodeUri: ./dist/package-azure.zip
+#      CodeUri: ./dist/azure.zip
 #      FunctionName: !Sub ${AWS::StackName}-azure
 #      Handler: main
 #      MemorySize: 256
@@ -104,7 +104,7 @@ Resources:
 #  Google:
 #    Condition: isGoogle
 #    Properties:
-#      CodeUri: ./dist/package-google.zip
+#      CodeUri: ./dist/google.zip
 #      FunctionName: !Sub ${AWS::StackName}-google
 #      Handler: main
 #      MemorySize: 256
@@ -116,7 +116,7 @@ Resources:
   Netlify:
     Condition: isNetlify
     Properties:
-      CodeUri: ./dist/package-netlify.zip
+      CodeUri: ./dist/netlify.zip
       Environment:
         Variables:
           NETLIFY_TOKEN: !Ref NetlifyToken
@@ -131,7 +131,7 @@ Resources:
   DigitalOcean:
     Condition: isDigitalOcean
     Properties:
-      CodeUri: ./dist/package-digitalocean.zip
+      CodeUri: ./dist/digitalocean.zip
       Environment:
         Variables:
           DIGITALOCEAN_TOKEN: !Ref DigitalOceanToken
@@ -147,7 +147,7 @@ Resources:
 #     #long list of params here: https://github.com/terraform-providers/terraform-provider-openstack/blob/master/openstack/provider.go#L15
 #    Condition: isOpenStack
 #    Properties:
-#      CodeUri: ./dist/package-openstack.zip
+#      CodeUri: ./dist/openstack.zip
 #      Environment:
 #        Variables:
 #          #
@@ -163,7 +163,7 @@ Resources:
 #     #long list of params here: https://github.com/terraform-providers/terraform-provider-kubernetes/blob/master/kubernetes/provider.go#L21
 #    Condition: isKubernetes
 #    Properties:
-#      CodeUri: ./dist/package-kubernetes.zip
+#      CodeUri: ./dist/kubernetes.zip
 #      Environment:
 #        Variables:
 #          #
@@ -179,7 +179,7 @@ Resources:
      # long list of params here: https://github.com/terraform-providers/terraform-provider-postgresql/blob/master/postgresql/provider.go#L20
 #    Condition: isPostgresql
 #    Properties:
-#      CodeUri: ./dist/package-postgresql.zip
+#      CodeUri: ./dist/postgresql.zip
 #      Environment:
 #        Variables:
 #          #

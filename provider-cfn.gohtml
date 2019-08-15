@@ -1,0 +1,14 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: example {{.ProviderName}} configuration that you can try
+Transform: AWS::Serverless-2016-10-31
+
+Resources:
+  {{.ProviderNameTitle}}Config:
+    Properties:
+      CodeUri: ./dist/{{.ProviderName}}.zip
+      FunctionName: !Sub ${AWS::StackName}-{{.ProviderName}}
+      Handler: main
+      MemorySize: 128
+      Runtime: go1.x
+      Timeout: 900
+    Type: AWS::Serverless::Function

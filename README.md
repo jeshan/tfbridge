@@ -16,21 +16,11 @@ Create, import and manage (virtually) **any** Terraform resource in (virtually) 
 *tfbridge* is a bunch of Cloudformation custom resources backed by serverless functions. It is fairly provider agnostic so that it's easier to support as many of them as possible.
 
 ## Features
-- [x] Multi-provider. The following are currently available and it's trivial to add more. The ticked ones are tested by me:
-  - [x] AWS
-  - [ ] Azure
-  - [x] DigitalOcean
-  - [x] Github
-  - [x] Gitlab
-  - [ ] Google Cloud Platform
-  - [x] Http
-  - [ ] Kubernetes
-  - [x] Netlify
-  - [ ] OpenStack
-  - [ ] PostgreSQL
+- [x] Multi-provider. See [latest release](https://github.com/jeshan/tfbridge/releases/latest) for the full list.
 - [x] Terraform data sources
 - [x] Import resources (just like in Terraform)
   - [x] Strict mode: *tfbridge* can check that you declared all properties correctly.
+- [ ] full support for provider options
 - [ ] variable interpolation e.g `${var.self.whatever}`.
 
 ## Usage
