@@ -59,9 +59,10 @@ Resources:
           version: 0.2
 
           env:
-            parameter-store:
+            variables:
               BUCKET: ${Bucket}
               CLI_PROFILE: ${AwsProfile}
+            parameter-store:
               GITHUB_TOKEN: /CodeBuild/TFBRIDGE_GITHUB_TOKEN
 
           phases:
