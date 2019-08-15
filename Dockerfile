@@ -23,7 +23,7 @@ RUN go mod init github.com/jeshan/tfbridge
 
 COPY tfbridge/lambda tfbridge/lambda
 COPY tfbridge/crud tfbridge/crud
-COPY tfbridge/real-tests tfbridge/real-tests
+#COPY tfbridge/real-tests tfbridge/real-tests
 COPY tfbridge/utils tfbridge/utils
 
 RUN go build -o dist/main tfbridge/lambda/main.go
