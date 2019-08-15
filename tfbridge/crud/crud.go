@@ -3,10 +3,12 @@ package crud
 import (
 	"fmt"
 	"github.com/hashicorp/terraform/config"
+	"github.com/hashicorp/terraform/helper/schema"
 	"github.com/hashicorp/terraform/terraform"
 	"github.com/jeshan/tfbridge/tfbridge/utils"
 	"os"
 	"plugin"
+	"strings"
 )
 
 type ProviderCrud struct {
@@ -141,4 +143,118 @@ func GetProvider(resourceType string) (terraform.ResourceProvider, error) {
 	}
 	return crud.Init()
 
+}
+
+func GetConfigurationMap(resourceProvider terraform.ResourceProvider) map[string]interface{} {
+	provider := resourceProvider.(*schema.Provider)
+	prefix, _ := getProviderPrefix(provider)
+	return lookupEnvVars(getSchemaEnvVarNameMap(provider.Schema, prefix, schema.TypeInvalid))
+}
+
+func lookupEnvVars(input map[string]interface{}) map[string]interface{} {
+	result := map[string]interface{}{}
+	for key, value := range input {
+		// TODO: support maps better, e.g with _KEYS and _VALUES, or listing all env vars and filtering them (could be done for list as well)
+		// TODO: test for bool, list of ints, and other non-string values (first, check how TF handles it)
+		envName := value
+		switch value.(type) {
+		case []interface{}:
+			envName = value.([]interface{})[0]
+			var newList []interface{}
+			for index := 0; ; index += 1 {
+				envNameKey := fmt.Sprintf("%s_%d", envName.(string), index)
+				lookupEnv, b := os.LookupEnv(envNameKey)
+				if !b {
+					break
+				}
+				newList = append(newList, lookupEnv)
+			}
+			if len(newList) != 0 {
+				result[key] = newList
+			}
+		default:
+			lookupEnv, b := os.LookupEnv(envName.(string))
+			if b {
+				result[key] = lookupEnv
+			}
+		}
+	}
+	return result
+}
+
+func getProviderPrefix(provider *schema.Provider) (string, error) {
+	for key := range provider.ResourcesMap {
+		return "TFBRIDGE_" + key[0:strings.Index(key, "_")], nil
+	}
+	for key := range provider.DataSourcesMap {
+		return "TFBRIDGE_" + key[0:strings.Index(key, "_")], nil
+	}
+	return "", fmt.Errorf("no provider name found")
+}
+
+func getSchemaEnvVarNameMap(sch map[string]*schema.Schema, prefix string, parentType schema.ValueType) map[string]interface{} {
+	result := map[string]interface{}{}
+	for key, value := range sch {
+		var newSch map[string]*schema.Schema
+		if value.Elem != nil {
+			switch value.Elem.(type) {
+			case *schema.Resource:
+				newSch = value.Elem.(*schema.Resource).Schema
+			case *schema.Schema:
+				newSch = map[string]*schema.Schema{key: value.Elem.(*schema.Schema)}
+			default:
+				panic(fmt.Errorf("unsupported elem type: %v", value.Elem))
+			}
+		}
+
+		switch value.Type {
+		case schema.TypeMap:
+			for k, v := range getSchemaEnvVarNameMap(newSch, prefix+"_"+key, value.Type) {
+				//_, found := result[k]
+				//if !found {
+				newValue := map[string]interface{}{"": v}
+				//map[string]interface{}{v.(string): ""} // TODO: test
+				if parentType == schema.TypeMap {
+					result[k] = map[string]interface{}{"": newValue}
+				} else if parentType == schema.TypeList || parentType == schema.TypeSet {
+					result[k] = []interface{}{newValue}
+				} else if parentType == schema.TypeInvalid && value.Type == schema.TypeSet {
+					result[k] = v // TODO: is this good?
+				} else {
+					result[k] = newValue
+				}
+				//}
+			}
+		case schema.TypeList, schema.TypeSet:
+			for k, v := range getSchemaEnvVarNameMap(newSch, prefix+"_"+key, value.Type) {
+				//_, found := result[k]
+				newValue := []interface{}{v}
+				//if !found {
+				if parentType == schema.TypeMap {
+					result[k] = map[string]interface{}{"": newValue}
+				} else if parentType == schema.TypeList || parentType == schema.TypeSet {
+					result[k] = []interface{}{newValue}
+				} else if parentType == schema.TypeInvalid && value.Type == schema.TypeSet {
+					// doesn't work when in a Schema (and not a Resource)
+					result[k] = v // newValue: TODO: test
+					switch value.Elem.(type) {
+					//case *schema.Resource:
+					//result[k] = v
+					case *schema.Schema:
+						result[k] = newValue
+					}
+				} else {
+					result[k] = newValue
+				}
+				//}
+			}
+		default:
+			newPrefix := prefix + "_" + key
+			if strings.HasSuffix(prefix, key) {
+				newPrefix = prefix
+			}
+			result[key] = strings.ToUpper(newPrefix)
+		}
+	}
+	return result
 }
