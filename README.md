@@ -9,7 +9,7 @@ Create, import and manage (virtually) **any** Terraform resource in (virtually) 
 - Configure your postgres RDS instance with database (privileges, databases, schema, etc)
 - Use *tfbridge* to bring existing resources under CloudFormation management.
 - Leverage your existing CloudFormation skills to deploy to multiple providers: combine Github, Netlify and AWS in one template.
-- Skip waiting for the CloudFormation to provide native support for new services and features.
+- Skip waiting for the CloudFormation team to provide native support for new services and features.
 - Terraform users: No longer need to mess with TF state files; state is handled by Cloudformation.
 
 # What it is
