@@ -1,0 +1,16 @@
+version: '3.4'
+
+services:
+  build-and-release:
+    build:
+      context: .
+      args:
+        - GITHUB_TOKEN=${GITHUB_TOKEN}
+        - BUCKET=${BUCKET}
+        - CLI_PROFILE=${CLI_PROFILE}
+        - AWS_CONTAINER_CREDENTIALS_RELATIVE_URI
+        - AWS_EXECUTION_ENV
+        - AWS_DEFAULT_REGION
+        - AWS_REGION
+    volumes:
+     - ~/.aws:/root/.aws
