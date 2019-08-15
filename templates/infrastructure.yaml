@@ -121,3 +121,31 @@ Resources:
             Version: '2012-10-17'
           PolicyName: deploy-tfbridge-pol
     Type: AWS::IAM::Role
+
+  Weekly:
+    Properties:
+      ScheduleExpression: cron(0 20 1/7 * ? *)
+      State: ENABLED
+      Targets:
+        - Arn: !GetAtt 'DeployTfBridge.Arn'
+          RoleArn: !Sub '${EventRole.Arn}'
+          Id: FnCwLambdaTarget
+    Type: AWS::Events::Rule
+
+  EventRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Statement:
+          - Action: sts:AssumeRole
+            Effect: Allow
+            Principal:
+              Service: events.amazonaws.com
+      Policies:
+        - PolicyName: eventrole
+          PolicyDocument:
+            Version: 2012-10-17
+            Statement:
+              - Effect: Allow
+                Action: ['codebuild:StartBuild']
+                Resource: !GetAtt 'DeployTfBridge.Arn'
