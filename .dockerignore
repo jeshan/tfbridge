@@ -1,1 +1,6 @@
 dist/
+tfbridge/providers/cfn-templates
+.version
+.current-version
+download-dependencies.sh
+.env
