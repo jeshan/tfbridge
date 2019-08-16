@@ -105,7 +105,6 @@ func readProviderInfo() []ProviderInfo {
 	}
 	for _, item := range infos {
 		if strings.HasSuffix(item.Name(), ".zip") {
-			fmt.Println(item.Name())
 			providerName := item.Name()[:len(item.Name())-4]
 			result = append(result, ProviderInfo{
 				Name:    providerName,
