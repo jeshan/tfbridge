@@ -160,8 +160,8 @@ func writeCfnTemplates(supportedProviders []string) {
 	}
 }
 func writeCfnTemplate(providerName string) {
-	os.MkdirAll("tfbridge/providers", 0700)
-	path := fmt.Sprintf("%s-cfn-template.yaml", providerName)
+	os.MkdirAll("tfbridge/providers/cfn-templates", 0700)
+	path := fmt.Sprintf("tfbridge/providers/cfn-templates/%s.yaml", providerName)
 	if _, e := os.Stat(path); e == nil {
 		return
 	}

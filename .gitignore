@@ -14,5 +14,5 @@ tfbridge/providers/*.go
 download-dependencies.sh
 tfbridge/.terraform/
 .version
-*-cfn-template.yaml
+tfbridge/providers/cfn-templates/
 .current-version

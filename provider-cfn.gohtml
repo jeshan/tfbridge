@@ -5,7 +5,7 @@ Transform: AWS::Serverless-2016-10-31
 Resources:
   {{.ProviderNameTitle}}Config:
     Properties:
-      CodeUri: ./dist/{{.ProviderName}}.zip
+      CodeUri: ../../../dist/{{.ProviderName}}.zip
       FunctionName: !Sub ${AWS::StackName}-{{.ProviderName}}
       Handler: main
       MemorySize: 128
