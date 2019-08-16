@@ -157,31 +157,34 @@ func WriteProviderFiles() {
 
 func writeCfnTemplates(supportedProviders []string) {
 	for _, providerName := range supportedProviders {
-		os.MkdirAll("tfbridge/providers", 0700)
-		path := fmt.Sprintf("%s-cfn-template.yaml", providerName)
-		if _, e := os.Stat(path); e == nil {
-			return
-		}
-		files, e := template.ParseFiles("provider-cfn.gohtml")
-		if e != nil {
-			panic(e)
-		}
-		fmt.Println("Creating file", path)
-		file, e := os.Create(path)
-		if e != nil {
-			panic(e)
-		}
-		writer := bufio.NewWriter(file)
-		e = files.Templates()[0].Execute(writer, cfnTemplateData{ProviderName: providerName, ProviderNameTitle: strings.Title(providerName)})
-		if e != nil {
-			panic(e)
-		}
-		defer func() {
-			if e := writer.Flush(); e != nil {
-				panic(e)
-			}
-		}()
+		writeCfnTemplate(providerName)
 	}
+}
+func writeCfnTemplate(providerName string) {
+	os.MkdirAll("tfbridge/providers", 0700)
+	path := fmt.Sprintf("%s-cfn-template.yaml", providerName)
+	if _, e := os.Stat(path); e == nil {
+		return
+	}
+	files, e := template.ParseFiles("provider-cfn.gohtml")
+	if e != nil {
+		panic(e)
+	}
+	fmt.Println("Creating file", path)
+	file, e := os.Create(path)
+	if e != nil {
+		panic(e)
+	}
+	writer := bufio.NewWriter(file)
+	e = files.Templates()[0].Execute(writer, cfnTemplateData{ProviderName: providerName, ProviderNameTitle: strings.Title(providerName)})
+	if e != nil {
+		panic(e)
+	}
+	defer func() {
+		if e := writer.Flush(); e != nil {
+			panic(e)
+		}
+	}()
 }
 
 //noinspection GoUnhandledErrorResult
