@@ -11,7 +11,7 @@ tfbridge/terraform.tfstate.backup
 tfbridge/providers/*.go
 !tfbridge/providers/aws.go
 .env
-download-dependencies.sh
+download-dependencies.txt
 tfbridge/.terraform/
 .version
 tfbridge/providers/cfn-templates/

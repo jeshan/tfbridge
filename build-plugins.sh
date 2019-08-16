@@ -2,6 +2,7 @@
 
 for filename in tfbridge/providers/*.go; do
     name=`basename ${filename} .go`
+    $(cat download-dependencies.txt | grep terraform-providers-${name})
     echo "Building plugin for ${name}"
     time go build -buildmode=plugin -o dist/${name}.so tfbridge/providers/${name}.go
     if [[ $? -ne 0 ]]; then

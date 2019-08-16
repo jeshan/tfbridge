@@ -82,7 +82,7 @@ func getNewVersion() string {
 }
 
 func readProviderVersion(providerName string) string {
-	file, err := ioutil.ReadFile("download-dependencies.sh")
+	file, err := ioutil.ReadFile("download-dependencies.txt")
 	if err != nil {
 		panic(err)
 	}
@@ -188,10 +188,9 @@ func writeCfnTemplate(providerName string) {
 
 //noinspection GoUnhandledErrorResult
 func writeDownloadDependenciesScript(supportedProviders []string) {
-	path := "download-dependencies.sh"
+	path := "download-dependencies.txt"
 	fmt.Println("Creating file", path)
 	file, _ := os.Create(path)
-	file.WriteString("#!/usr/bin/env bash\n")
 	for _, value := range supportedProviders {
 		latest := getLatestVersion(fmt.Sprintf("terraform-providers/terraform-provider-%s", value))
 		file.WriteString(fmt.Sprintf("go get -d github.com/terraform-providers/terraform-provider-%s@%s\n", value, latest))

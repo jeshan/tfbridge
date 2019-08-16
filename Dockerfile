@@ -38,7 +38,6 @@ COPY *.gohtml ./
 COPY tfbridge/providers tfbridge/providers
 
 RUN dist/write-build-info
-RUN time ./download-dependencies.sh
 
 COPY build-plugins.sh ./
 RUN time ./build-plugins.sh
