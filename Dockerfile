@@ -30,7 +30,7 @@ COPY .git .git
 RUN go build -o dist/main tfbridge/lambda/main.go
 
 COPY tfbridge/release tfbridge/release
-RUN git describe --abbrev=0 --tags > .current-version
+RUN git describe --tags `git rev-list --tags --max-count=1` > .current-version
 RUN go build -o dist/create-release tfbridge/release/main/create-release.go
 RUN go build -o dist/write-build-info tfbridge/release/main/main.go
 COPY *.gohtml ./
