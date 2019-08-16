@@ -287,6 +287,12 @@ func loopProviders(index int) []string {
 			continue
 		}
 		item := url[strings.LastIndex(url, "-")+1:]
+		switch item {
+		case
+			// "others",
+			"template":
+			continue
+		}
 		result = append(result, item)
 	}
 	return result
