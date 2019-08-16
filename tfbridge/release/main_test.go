@@ -172,12 +172,12 @@ func Test_getLatestVersion(t *testing.T) {
 	}{
 		{
 			name: "alicloud",
-			args: args{projectName: "alicloud"},
+			args: args{projectName: "terraform-providers/terraform-provider-alicloud"},
 			want: "v1.54.0",
 		},
 		{
 			name: "aws",
-			args: args{projectName: "aws"},
+			args: args{projectName: "terraform-providers/terraform-provider-aws"},
 			want: "v2.24.0",
 		},
 	}
