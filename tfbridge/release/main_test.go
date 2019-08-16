@@ -189,3 +189,27 @@ func Test_getLatestVersion(t *testing.T) {
 		})
 	}
 }
+
+func Test_getLatestRelease(t *testing.T) {
+	type args struct {
+		projectName string
+	}
+	tests := []struct {
+		name string
+		args args
+		want string
+	}{
+		{
+			name: "tfbridge",
+			args: args{projectName: "jeshan/tfbridge"},
+			want: "v0.10.0",
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := getLatestRelease(tt.args.projectName); got != tt.want {
+				t.Errorf("getLatestVersion() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
