@@ -31,7 +31,7 @@ func ListSupportedProviders() []string {
 }
 
 func WriteNewVersion() {
-	latestVersion := getLatestRelease("jeshan/tfbridge")
+	latestVersion := getLatestLocalTag()
 	semantic, _ := version.ParseGeneric(latestVersion)
 	oldVersion := semantic.String()
 	semantic = semantic.WithMinor(semantic.Minor() + 1)
@@ -223,26 +223,9 @@ func getLatestVersion(projectName string) string {
 	return "latest"
 }
 
-func getLatestRelease(projectName string) string {
-	req, err := http.NewRequest("GET", fmt.Sprintf("https://api.github.com/repos/%s/releases/latest", projectName), nil)
-	req.Header.Set("Authorization", fmt.Sprintf("token %s", os.Getenv("GITHUB_TOKEN")))
-	client := &http.Client{}
-	resp, err := client.Do(req)
-	fmt.Println("Getting latest version for", projectName)
-	if err != nil {
-		panic(err)
-	}
-	content, err := ioutil.ReadAll(resp.Body)
-	if err != nil {
-		panic(err)
-	}
-	var parsed map[string]string
-	_ = json.Unmarshal(content, &parsed)
-	tagName := parsed["tag_name"]
-	if len(tagName) == 0 {
-		return "latest"
-	}
-	return tagName
+func getLatestLocalTag() string {
+	content, _ := ioutil.ReadFile(".current-version")
+	return strings.TrimSpace(string(content))
 }
 
 //noinspection GoUnhandledErrorResult
