@@ -200,7 +200,7 @@ func writeDownloadDependenciesScript(supportedProviders []string) {
 }
 
 func getLatestVersion(projectName string) string {
-	req, err := http.NewRequest("GET", fmt.Sprintf("https://api.github.com/repos/terraform-providers/terraform-provider-%s/tags", projectName), nil)
+	req, err := http.NewRequest("GET", fmt.Sprintf("https://api.github.com/repos/%s/tags", projectName), nil)
 	req.Header.Set("Authorization", fmt.Sprintf("token %s", os.Getenv("GITHUB_TOKEN")))
 	client := &http.Client{}
 	resp, err := client.Do(req)
