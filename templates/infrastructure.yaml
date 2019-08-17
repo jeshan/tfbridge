@@ -126,7 +126,7 @@ Resources:
 
   Weekly:
     Properties:
-      ScheduleExpression: cron(0 20 1/7 * ? *)
+      ScheduleExpression: cron(0 0 ? * SUN *) # every Sunday at midnight UTC
       State: ENABLED
       Targets:
         - Arn: !GetAtt 'DeployTfBridge.Arn'
