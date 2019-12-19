@@ -41,8 +41,8 @@ RUN time ./build-plugins.sh
 FROM python:3-slim
 RUN pip install sceptre==2.2.1
 
-COPY --from=0 .version dist/ ./
-COPY --from=0 tfbridge/providers tfbridge/providers
+COPY --from=0 /app/.version dist/ ./
+COPY --from=0 /app/tfbridge/providers tfbridge/providers
 
 COPY deploy-artefacts.sh ./
 COPY templates templates
