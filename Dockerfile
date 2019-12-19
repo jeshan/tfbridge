@@ -15,6 +15,8 @@ ENV GITHUB_TOKEN=${GITHUB_TOKEN} BUCKET=${BUCKET} \
 SHELL ["/bin/bash", "-c"]
 WORKDIR /app
 
+RUN apt-get update && apt-get install -y zip && rm -rf /var/cache/apt
+
 RUN go mod init github.com/jeshan/tfbridge
 
 COPY tfbridge/lambda tfbridge/lambda
@@ -39,7 +41,7 @@ COPY build-plugins.sh ./
 RUN time ./build-plugins.sh
 
 FROM python:3-slim
-RUN pip install sceptre==2.2.1
+RUN pip install awscli aws-sam-cli sceptre==2.2.1
 
 COPY --from=0 /app/.version dist/ ./
 COPY --from=0 /app/tfbridge/providers tfbridge/providers
