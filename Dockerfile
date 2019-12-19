@@ -15,10 +15,6 @@ ENV GITHUB_TOKEN=${GITHUB_TOKEN} BUCKET=${BUCKET} \
 SHELL ["/bin/bash", "-c"]
 WORKDIR /app
 
-RUN apt-get update && apt-get install -y python-dev zip && rm -rf /var/cache/apt
-RUN curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py && python get-pip.py
-RUN pip install awscli aws-sam-cli sceptre==2.1.5
-
 RUN go mod init github.com/jeshan/tfbridge
 
 COPY tfbridge/lambda tfbridge/lambda
@@ -42,11 +38,16 @@ RUN dist/write-build-info
 COPY build-plugins.sh ./
 RUN time ./build-plugins.sh
 
+FROM python:3-slim
+RUN pip install sceptre==2.2.1
+
+COPY --from=0 .version dist/ ./
+COPY --from=0 tfbridge/providers tfbridge/providers
+
 COPY deploy-artefacts.sh ./
 COPY templates templates
 COPY config config
 
 ENV LC_ALL=C.UTF-8 LANG=C.UTF-8
-RUN pip install click==7.0
 RUN AWS_REGION=${AWS_REGION} AWS_DEFAULT_REGION=${AWS_DEFAULT_REGION} BUCKET=${BUCKET} CLI_PROFILE=${CLI_PROFILE} ./deploy-artefacts.sh
 RUN dist/create-release
