@@ -44,7 +44,7 @@ FROM python:3-slim
 RUN pip install awscli aws-sam-cli sceptre==2.2.1
 
 COPY --from=0 /app/.version .
-COPY --from=0 dist/ dist/
+COPY --from=0 /app/dist/ dist/
 COPY --from=0 /app/tfbridge/providers tfbridge/providers
 
 COPY deploy-artefacts.sh ./
