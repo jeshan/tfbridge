@@ -44,7 +44,7 @@ FROM python:3-slim
 RUN pip install awscli aws-sam-cli
 WORKDIR /app
 
-COPY --from=0 /app/.version .
+COPY --from=0 /app/.version /app/go.mod /app/*.gohtml /app/download-dependencies.txt ./
 COPY --from=0 /app/dist/ dist/
 COPY --from=0 /app/tfbridge/providers tfbridge/providers
 
