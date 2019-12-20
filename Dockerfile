@@ -23,11 +23,11 @@ COPY tfbridge/lambda tfbridge/lambda
 COPY tfbridge/crud tfbridge/crud
 #COPY tfbridge/real-tests tfbridge/real-tests
 COPY tfbridge/utils tfbridge/utils
-COPY .git .git
 
 RUN go build -o dist/main tfbridge/lambda/main.go
 
 COPY tfbridge/release tfbridge/release
+COPY .git .git
 RUN git describe --tags `git rev-list --tags --max-count=1` > .current-version
 RUN go build -o dist/create-release tfbridge/release/main/create-release.go
 RUN go build -o dist/write-build-info tfbridge/release/main/main.go
