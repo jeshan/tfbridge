@@ -16,4 +16,5 @@ for filename in dist/*.zip; do
     aws s3 cp ${name}-packaged.yaml s3://${BUCKET}/releases/${TAG}/templates/${name}.yaml
 done
 
+pip install sceptre
 sceptre --no-colour launch -y main

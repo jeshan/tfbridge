@@ -41,7 +41,7 @@ COPY build-plugins.sh ./
 RUN time ./build-plugins.sh
 
 FROM python:3-slim
-RUN pip install awscli aws-sam-cli sceptre==2.2.1
+RUN pip install awscli aws-sam-cli
 WORKDIR /app
 
 COPY --from=0 /app/.version .
